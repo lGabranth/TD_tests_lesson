@@ -16,6 +16,9 @@ class UserController extends AbstractController
 	#[Route('/dashboard', name: 'user_dashboard')]
     public function index(UserRepository $userRepository): Response
     {
+				if (!$this->getUser()) {
+					return $this->redirectToRoute('app_login');
+				}
 				$users = $userRepository->findBy(['active' => true]);
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
@@ -33,7 +36,7 @@ class UserController extends AbstractController
         ]);
     }
 		
-		#[Route(path: '/addUser', methods: 'POST')]
+		#[Route(path: '/addUser', methods: 'POST', name: 'user_add')]
 		public function addUser(UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager)
 		{
 			$user = new User();

@@ -14,8 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class PaymentController extends AbstractController
 {
 		#[Route('/', name: 'payment_dashboard')]
-    public function index(): Response
+    public function index(PatientRepository $patientRepository): Response
     {
+				if (!$this->getUser()) {
+					return $this->redirectToRoute('app_login');
+				}
 				$payments = array_map(static fn($item) => [
 					'id' => $item->getId(),
 					'amount' => $item->getAmount(),
@@ -38,10 +41,11 @@ class PaymentController extends AbstractController
             'controller_name' => 'PaymentController',
 	          'user' => $this->getUser(),
 	          'payments' => json_encode($payments, JSON_THROW_ON_ERROR),
+	          'current_balance' => $patientRepository->findCurrentCompanyBalance($this->getUser()->getId()),
         ]);
     }
 		
-		#[Route('/add', methods: 'POST')]
+		#[Route('/add', methods: 'POST', name: 'payment_add')]
 		public function addPayment(
 			InterventionRepository $interventionRepository,
 			PatientRepository $patientRepository,

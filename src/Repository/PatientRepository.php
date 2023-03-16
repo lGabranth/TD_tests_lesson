@@ -48,4 +48,14 @@ class PatientRepository extends ServiceEntityRepository
 				->getQuery()
 				->getResult();
 		}
+		
+		public function findCurrentCompanyBalance(int $userId): float
+		{
+			return $this->createQueryBuilder('p')
+				->select('SUM(p.balance)')
+				->where(':userId MEMBER OF p.user')
+				->setParameter('userId', $userId)
+				->getQuery()
+				->getSingleScalarResult() ?? 0;
+		}
 }
