@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}Cabinet Crettex | Dashboard{% endblock %}
 
 {% block body %}
 
@@ -9,9 +9,9 @@
         <div class="col-12">
           <h1>Bonjour, <span class="text-info">{{ user.firstname }}</span>.</h1>
             {% if amount < 0 %}
-                <p>Il y a actuellement <span class="text-danger fw-bold">{{ amount|abs }}€</span> de moins que prévu dans la caisse.</p>
+                <p>Il y a actuellement <span class="text-warning fw-bold">{{ amount|abs }}€ de moins que prévu dans la caisse.</span></p>
             {% elseif amount > 0 %}
-                <p>Il y a actuellement <span class="text-warning fw-bold">{{ amount|abs }}€</span> de plus que prévu dans la caisse.</p>
+                <p>Il y a actuellement <span class="text-warning fw-bold">{{ amount|abs }}€ de plus que prévu dans la caisse.</span></p>
             {% endif %}
         </div>
     </div>

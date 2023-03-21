@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Payment;
+use App\Entity\User;
 use App\Repository\InterventionRepository;
 use App\Repository\PatientRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,11 +55,16 @@ class PaymentController extends AbstractController
 		{
 			$intervention = $interventionRepository->find($_POST['idIntervention']);
 			$patient = $patientRepository->find($_POST['patient']['id']);
+			$user = $this->getUser();
 			$difference = $_POST['amount'] - $intervention->getAmount();
 			$newBalance = $patient->getBalance() + $difference;
 			
+			$billingPeriod = $user?->getBillingPeriods()->last();
+			$billingPeriod->setBalance($billingPeriod->getBalance() + $_POST['amount']);
+			$billingPeriod->setNumberOfAppointments($billingPeriod->getNumberOfAppointments() + 1);
 			$patient->setBalance($newBalance);
 			
+			$entityManager->persist($billingPeriod);
 			$entityManager->persist($patient);
 			
 			$payment = new Payment();
