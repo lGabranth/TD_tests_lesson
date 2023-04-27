@@ -3,25 +3,20 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('billingPeriod')]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    private ?string $email = null;
+    private ?string $login = null;
 
     #[ORM\Column]
     private array $roles = [];
@@ -33,43 +28,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $firstname = null;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Payment::class)]
-    private Collection $payments;
-
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: BillingPeriod::class)]
-    private Collection $billingPeriods;
+    private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $area = null;
+    private ?string $firstname = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $lastname = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $img = null;
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Company $company = null;
 
     #[ORM\Column]
     private ?bool $active = null;
-
-    #[ORM\ManyToMany(targetEntity: Patient::class, mappedBy: 'user')]
-    private Collection $patients;
-
-    public function __construct()
-    {
-        $this->payments = new ArrayCollection();
-        $this->billingPeriods = new ArrayCollection();
-        $this->patients = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    public function getLogin(): ?string
     {
-        return $this->email;
+        return $this->login;
     }
 
-    public function setEmail(string $email): self
+    public function setLogin(string $login): self
     {
-        $this->email = $email;
+        $this->login = $login;
 
         return $this;
     }
@@ -81,7 +70,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->login;
     }
 
     /**
@@ -127,6 +116,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -139,74 +140,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Payment>
-     */
-    public function getPayments(): Collection
+    public function getLastname(): ?string
     {
-        return $this->payments;
+        return $this->lastname;
     }
 
-    public function addPayment(Payment $payment): self
+    public function setLastname(string $lastname): self
     {
-        if (!$this->payments->contains($payment)) {
-            $this->payments->add($payment);
-            $payment->setUser($this);
-        }
+        $this->lastname = $lastname;
 
         return $this;
     }
 
-    public function removePayment(Payment $payment): self
+    public function getImg(): ?string
     {
-        if ($this->payments->removeElement($payment)) {
-            // set the owning side to null (unless already changed)
-            if ($payment->getUser() === $this) {
-                $payment->setUser(null);
-            }
-        }
+        return $this->img;
+    }
+
+    public function setImg(string $img): self
+    {
+        $this->img = $img;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, BillingPeriod>
-     */
-    public function getBillingPeriods(): Collection
+    public function getCompany(): ?Company
     {
-        return $this->billingPeriods;
+        return $this->company;
     }
 
-    public function addBillingPeriod(BillingPeriod $billingPeriod): self
+    public function setCompany(?Company $company): self
     {
-        if (!$this->billingPeriods->contains($billingPeriod)) {
-            $this->billingPeriods->add($billingPeriod);
-            $billingPeriod->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBillingPeriod(BillingPeriod $billingPeriod): self
-    {
-        if ($this->billingPeriods->removeElement($billingPeriod)) {
-            // set the owning side to null (unless already changed)
-            if ($billingPeriod->getUser() === $this) {
-                $billingPeriod->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getArea(): ?string
-    {
-        return $this->area;
-    }
-
-    public function setArea(string $area): self
-    {
-        $this->area = $area;
+        $this->company = $company;
 
         return $this;
     }
@@ -219,33 +184,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Patient>
-     */
-    public function getPatients(): Collection
-    {
-        return $this->patients;
-    }
-
-    public function addPatient(Patient $patient): self
-    {
-        if (!$this->patients->contains($patient)) {
-            $this->patients->add($patient);
-            $patient->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePatient(Patient $patient): self
-    {
-        if ($this->patients->removeElement($patient)) {
-            $patient->removeUser($this);
-        }
 
         return $this;
     }

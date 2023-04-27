@@ -101,4 +101,41 @@ class UserController extends AbstractController
 				context: ['groups' => 'billingPeriod']
 			);
 		}
+		
+		#[Route(path: '/wtf')]
+		public function wtf() {
+			$result = [];
+			
+			function getAlphabet($number) {
+				if ($number>26 || $number < 1) {
+					return "pas autant de lettres dans l'alphabet";
+				}
+				$alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+				return $alphabet[$number+1];
+			}
+			
+			
+			// Ecrire une fonction qui prend en paramètre une lettre et renvoie sa place dans l'alphabet
+			// alphabet('a') doit renvoyer 1 car la place de la lettre a dans l'alphabet est la première
+			function alphabet($letter) {
+				$alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+				return array_search($letter, $alphabet, true)+1;
+			}
+			
+			// Créer une fonction qui prend en paramètre l'âge d'un individu et lui dit s'il est majeur ou non
+			// Si l'individu à 32ans, dites lui que vous l'aimez
+			function amIAdult() {
+			
+			}
+			
+			
+			$result = [
+				'Devrait être false' => amIAdult(17),
+				'Devrait être true' => amIAdult(18),
+				'Devrait être true aussi' => amIAdult(19),
+				'Devrait être ma femme' => amIAdult(32),
+			];
+			
+			return $this->json($result);
+		}
 }

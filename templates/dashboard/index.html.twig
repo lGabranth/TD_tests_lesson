@@ -1,267 +1,88 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cabinet Crettex | Dashboard{% endblock %}
+{% block title %}Dashboard | Shelper.{% endblock %}
 
 {% block body %}
+<main id="app">
+    {% if app.request.get('_route') != 'app_login' %}
+    <header>
+        <nav class="navbar navbar-expand-lg mask-custom">
+          <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/"><i class="fas fa-house menu-img"></i></router-link>
+                </li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/beasts"><i class="fas fa-paw menu-img"></i></router-link>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#"><i class="fas fa-person-shelter menu-img"></i></a>
+                </li>
+              </ul>
+              <div class="navbar-text d-flex">
+                {% if is_granted('ROLE_ADMIN') %}
+                  <div class="collapse" id="collapseMenu">
+                      <i class="fas fa-building"></i>
+                      <i class="fas fa-file-medical"></i>
+                      <i class="fas fa-disease"></i>
+                      <i class="fas fa-virus"></i>
+                      <i class="fas fa-paw"></i>
+                      <i class="fas fa-kit-medical"></i>
+                  </div>
+                  <a class="text-white mx-3" role="button" data-mdb-toggle="collapse" href="#collapseMenu" aria-expanded="false" aria-controls="collapseMenu">
+                      <i class="fas fa-cogs menu-img"></i>
+                  </a>
+                {% endif %}
+                <a class="link-danger" href="{{ path('app_logout') }}"><i class="fas fa-sign-out text-danger menu-img"></i></a>
+              </div>
+            </div>
+          </div>
+        </nav>
+    </header>
+    {% endif %}
+    <router-view></router-view>
+</main>
+{% endblock %}
 
-<div class="container mt-3" id="dashboard">
-    <div class="row">
-        <div class="col-12">
-          <h1>Bonjour, <span class="text-info">{{ user.firstname }}</span>.</h1>
-            {% if amount < 0 %}
-                <p>Il y a actuellement <span class="text-warning fw-bold">{{ amount|abs }}€ de moins que prévu dans la caisse.</span></p>
-            {% elseif amount > 0 %}
-                <p>Il y a actuellement <span class="text-warning fw-bold">{{ amount|abs }}€ de plus que prévu dans la caisse.</span></p>
-            {% endif %}
-        </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
-            <h2>Patients à vérifier</h2>
-            <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-12">
-                    <table class="table table-striped table-sm table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Patient</th>
-                            <th scope="col">Solde</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(p, index) in patientsNotGood">
-                            <th scope="row">${ index +1 }</th>
-                            <td>${ p.firstname } ${ p.lastname }</td>
-                            <td>${ p.balance }€</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-12 mt-lg-0 mt-md-0 mt-sm-4 mt-4">
-            <div class="row mb-3">
-                <div class="col">
-                    <h2>Ajouter un paiement</h2>
-                    <div class="modal fade" id="modalChoosePatient" tabindex="-1">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title">Choisir un patient</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                              <div v-show="onglet === 'searchPatient'" class="container-fluid">
-                                  <div class="row">
-                                      <div class="col">
-                                          <div class="input-group input-group-sm">
-                                            <input type="search" placeholder="Nom du patient" class="form-control form-control-sm" v-model="patientSearch">
-                                            <button class="btn btn-sm btn-outline-info input-group-text"><i class="fas fa-search"></i></button>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="row mt-3">
-                                      <div class="col">
-                                          <button class="btn btn-sm text-success" @click="onglet = 'newPatient'"><i class="fas fa-user-injured"></i> Créer un nouveau patient</button>
-                                            <table class="table table-striped table-sm table-hover align-middle text-center">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Patient</th>
-                                                    <th scope="col">Solde</th>
-                                                    <th></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr v-for="(p, index) in patientsFiltered">
-                                                    <th scope="row">${ index +1 }</th>
-                                                    <td>${ p.firstname } ${ p.lastname }</td>
-                                                    <td>${ p.balance }€</td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-outline-success" @click="payment.patient = p" data-bs-dismiss="modal">Sélectionner <i class="fas fa-check"></i></button>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                                      </div>
-                                  </div>
-                              </div>
-                              <div v-show="onglet === 'newPatient'" class="container-fluid">
-                                  <div class="row">
-                                      <div class="col">
-                                          <button class="btn btn-sm" @click="onglet = 'searchPatient'"><i class="fas fa-arrow-left"></i> Revenir à la liste des patients</button>
-                                      </div>
-                                  </div>
-                                  <div class="row mt-3">
-                                      <div class="col">
-                                          <label for="firstname" class="form-label">Prénom</label>
-                                          <input type="text" class="form-control form-control-sm" id="firstname" placeholder="Prénom" v-model="patientToAdd.firstname">
-                                      </div>
-                                      <div class="col">
-                                          <label for="lastname" class="form-label">Nom</label>
-                                          <input type="text" class="form-control form-control-sm" id="lastname" placeholder="Nom" v-model="patientToAdd.lastname">
-                                      </div>
-                                  </div>
-                                  <div class="row mt-3">
-                                      <div class="offset-8 col-4">
-                                          <button v-show="!loading" class="btn btn-sm btn-outline-success" :disabled="patientToAdd.firstname === '' || patientToAdd.lastname === ''" @click="addPatient">
-                                              <i class="fas fa-add"></i> Créer le patient
-                                          </button>
-                                          <div v-show="loading" class="spinner-border text-success" role="status">
-                                              <span class="visually-hidden">Chargement...</span>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button v-show="!loading" type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-3">
-                            <div v-show="payment.patient !== null" class="input-group input-group-sm">
-                                <input type="text" class="form-control form-control-sm" disabled :value="`${payment.patient?.firstname} ${payment.patient?.lastname}`">
-                                <button class="btn btn-sm btn-danger input-group-text" @click="payment.patient = null"><i class="fas fa-times"></i></button>
-                            </div>
-                            <button v-show="!payment.patient" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalChoosePatient">Choisir un patient</button>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-select form-select-sm" v-model="payment.idIntervention">
-                                <option value="">Type</option>
-                                <option v-for="i in interventions" :value="i.id">${ i.name } - ${ i.amount }€</option>
-                            </select>
-                        </div>
-                        <div class="col-3">
-                            <select class="form-select form-select-sm" v-model="payment.type">
-                                <option value="CHQ">Chèque</option>
-                                <option value="ESP">Espèces</option>
-                            </select>
-                        </div>
-                        <div class="col-2">
-                            <input type="number" class="form-control form-control-sm" placeholder="montant" v-model="payment.amount">
-                        </div>
-                        <div class="col-1">
-                            <button type="submit" class="btn btn-sm btn-outline-success" :disabled="payment.patient === null || payment.idIntervention === '' || payment.type === '' || !payment.amount" @click="addPayment"><i class="fas fa-add"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h2>Derniers paiements</h2>
-                    <table class="table table-striped table-sm table-hover">
-                        <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Patient</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Séance</th>
-                            <th scope="col">Encaissé</th>
-                            <th scope="col">Solde</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(p, index) in lastPayments">
-                            <th scope="row">${ index +1 }</th>
-                            <td>${ p.patient.firstname } ${ p.patient.lastname }</td>
-                            <td>${ p.date }</td>
-                            <td>${ p.intervention.name } <small>(${ p.intervention.amount }€)</small></td>
-                            <td>${ p.amount }€</td>
-                            <td>${ p.difference }€</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+{% block javascript %}
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-router@4"></script>
+    <script type="text/x-template" id="dashboard">
+      {{ source('pages/dashboard.html.twig') }}
+    </script>
+    <script type="text/x-template" id="beasts">
+      {{ source('pages/beasts.html.twig') }}
+    </script>
     <script>
         const { createApp } = Vue;
-        createApp({
+        let Dashboard = ({
             delimiters: ['${', '}'],
             data() {
-              return {
-                interventions: JSON.parse('{{ interventions|raw }}'),
-                lastPayments: JSON.parse('{{ last_payments|raw }}'),
-                patientsNotGood: JSON.parse('{{ patients_not_good|raw }}'),
-                patients: JSON.parse('{{ patients|raw }}'),
-                onglet: 'searchPatient',
-                patientSearch: '',
-                patientToAdd: {
-                  firstname: '',
-                  lastname: '',
-                },
-                payment: {
-                  type: 'CHQ',
-                  amount: null,
-                  patient: null,
-                  idIntervention: ''
-                },
-                loading: false,
-              }
+                return {
+                    tasks: [
+                        {title: 'Task 1', completed: false},
+                        {title: 'Task 2', completed: false},
+                        {title: 'Task 3', completed: false},
+                        {title: 'Task 4', completed: false},
+                    ],
+                }
             },
-            computed: {
-              patientsFiltered() {
-                const { patientSearch, patients } = this;
+            template: '#dashboard',
+        });
 
-                return patients.filter(p => {
-                  const { firstname, lastname } = p;
-                  const name = `${firstname} ${lastname}`;
-                  return name.toLowerCase().includes(patientSearch.trim().toLowerCase());
-                })
-              }
+        let Beasts = ({
+            delimiters: ['${', '}'],
+            data() {
+                return {
+                    message: 'Hello Beasts!'
+                }
             },
-            methods: {
-              addPatient() {
-                const scope = this;
-                scope.loading = true;
-                axios.post("{{ url('add_patient') }}", this.patientToAdd, {
-                  headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                  }
-                })
-                  .then((response) => {
-                    scope.patients.push(response.data);
-                    scope.loading = false;
-                    scope.onglet = 'searchPatient';
-                    scope.patientToAdd = {
-                      firstname: '',
-                      lastname: '',
-                    };
-                  })
-                  .catch(() => {
-                    alert('Une erreur est survenue');
-                    scope.loading = false;
-                  });
-              },
-              addPayment() {
-                const scope = this;
-                scope.loading = true;
-                axios.post("{{ url('payment_add') }}", scope.payment, {
-                  headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                  }
-                })
-                  .then((response) => {
-                    scope.lastPayments.unshift(response.data);
-                    scope.payment = {
-                      type: 'CHQ',
-                      amount: null,
-                      patient: null,
-                      idIntervention: ''
-                    };
-                  })
-                  .catch(() => {
-                    alert('Une erreur est survenue');
-                    scope.loading = false;
-                  });
-              },
-            }
-        }).mount('#dashboard')
+            template: '#beasts'
+        });
     </script>
+    <script src="/js/router.js"></script>
 {% endblock %}

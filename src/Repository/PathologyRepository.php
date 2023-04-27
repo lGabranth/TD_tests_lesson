@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Payment;
+use App\Entity\Pathology;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Payment>
+ * @extends ServiceEntityRepository<Pathology>
  *
- * @method Payment|null find($id, $lockMode = null, $lockVersion = null)
- * @method Payment|null findOneBy(array $criteria, array $orderBy = null)
- * @method Payment[]    findAll()
- * @method Payment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Pathology|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Pathology|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Pathology[]    findAll()
+ * @method Pathology[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PaymentRepository extends ServiceEntityRepository
+class PathologyRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Payment::class);
+        parent::__construct($registry, Pathology::class);
     }
 
-    public function save(Payment $entity, bool $flush = false): void
+    public function save(Pathology $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class PaymentRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Payment $entity, bool $flush = false): void
+    public function remove(Pathology $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class PaymentRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Payment[] Returns an array of Payment objects
+//     * @return Pathology[] Returns an array of Pathology objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class PaymentRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Payment
+//    public function findOneBySomeField($value): ?Pathology
 //    {
 //        return $this->createQueryBuilder('p')
 //            ->andWhere('p.exampleField = :val')
