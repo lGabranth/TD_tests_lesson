@@ -1,0 +1,181 @@
+<div class="container h-100 rounded-3 mt-4 p-3" id="dashboard">
+    <div class="row h-100">
+        <div class="col h-100">
+            <div class="d-flex align-middle">
+              <router-link to="/beasts"><i class="fas fa-arrow-left fa-2x"></i></router-link>
+              <h2 class="mx-2">Gnocchi</h2>
+            </div>
+
+            <div class="row w-100 mt-3">
+              <div class="col-2 rounded-3 mask-custom">
+                <!-- Tab navs -->
+                <div
+                  class="nav flex-column nav-tabs text-center"
+                  id="v-tabs-tab"
+                  role="tablist"
+                  aria-orientation="vertical"
+                >
+                  <button
+                    class="nav-link active text-white"
+                    id="home-tab0"
+                    data-mdb-toggle="tab"
+                    data-mdb-target="#v-tabs-home"
+                    type="button"
+                    role="tab"
+                    aria-controls="v-tabs-home"
+                    aria-selected="true"
+                  >
+                    <i class="fas fa-clipboard"></i> Home
+                  </button>
+                  <a
+                    class="nav-link text-white-50"
+                    id="v-tabs-profile-tab"
+                    data-mdb-toggle="tab"
+                    href="#v-tabs-profile"
+                    role="tab"
+                    aria-controls="v-tabs-profile"
+                    aria-selected="false"
+                    >Profile</a
+                  >
+                  <a
+                    class="nav-link text-white-50"
+                    id="v-tabs-messages-tab"
+                    data-mdb-toggle="tab"
+                    href="#v-tabs-messages"
+                    role="tab"
+                    aria-controls="v-tabs-messages"
+                    aria-selected="false"
+                    >Messages</a
+                  >
+                </div>
+                <!-- Tab navs -->
+              </div>
+
+              <div class="offset-1 col-9 rounded-3 mask-custom">
+                <!-- Tab content -->
+                <div class="tab-content" id="v-tabs-tabContent">
+                  <div
+                    class="tab-pane fade show active"
+                    id="v-tabs-home"
+                    role="tabpanel"
+                    aria-labelledby="v-tabs-home-tab"
+                  >
+                    <div class="container-fluid">
+                      <div class="row mt-3">
+                        <div class="col">
+                          <h2>Informations générales</h2>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row my-4">
+                        <div class="col">
+                          <MDBInput label="Nom" v-model="message" />
+                        </div>
+                        <div class="col">
+                          <div class="form-outline">
+                            <input disabled type="text" id="beast-name" class="form-control" />
+                            <label class="form-label" for="beast-name">Race</label>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="input-group">
+                            <div class="input-group-text">
+                              <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input" />
+                            </div>
+                            <div class="form-outline">
+                              <input type="text" id="beast-name" class="form-control form-control-sm" />
+                              <label class="form-label" for="beast-name">Numéro puce</label>
+                            </div>
+                          </div>
+<!--                          <MDBInput
+                            inputGroup
+                            :formOutline="false"
+                            wrapperClass="mb-3"
+                            aria-label="Checkbox for following text input"
+                            placeholder="Numéro puce"
+                          >
+                            <template #prepend>
+                              <span class="input-group-text">
+                                <MDBCheckbox
+                                  aria-label="Text input with checkbox"
+                                  :wrap="false"
+                                  class="mt-0"
+                                />
+                              </span>
+                            </template>
+                          </MDBInput>-->
+                        </div>
+                      </div>
+                      <div class="row mb-4">
+                        <div class="col">
+                          <div class="input-group">
+                            <div class="form-outline">
+                              <input type="date" id="beast-name" class="form-control" />
+                              <label class="form-label" for="beast-name">Date d'arrivée</label>
+                            </div>
+                            <div class="form-outline">
+                              <input type="text" id="beast-name" class="form-control" />
+                              <label class="form-label" for="beast-name">Raison d'arrivée</label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div class="input-group">
+                            <div class="form-outline">
+                              <input type="date" id="beast-name" class="form-control" />
+                              <label class="form-label" for="beast-name">Date de départ</label>
+                            </div>
+                            <div class="form-outline">
+                              <input type="text" id="beast-name" class="form-control" />
+                              <label class="form-label" for="beast-name">Raison du départ</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-4">
+                          <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                            <label class="form-check-label" for="flexCheckDefault">Tatoué</label>
+                          </div>
+                        </div>
+                        <div class="col-8">
+                          <div class="form-outline">
+                            <textarea class="form-control" id="textAreaExample" rows="4"></textarea>
+                            <label class="form-label" for="textAreaExample">Commentaire</label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row mb-3">
+                      <div class="col d-flex justify-content-between">
+                        <router-link to="/beasts" class="btn btn-outline-secondary btn-sm"><i class="fas fa-arrow-left"></i></router-link>
+                        <button class="btn btn-outline-info btn-sm"><i class="fas fa-save"></i></button>
+                        <mdb-btn color="primary">Button</mdb-btn>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="v-tabs-profile"
+                    role="tabpanel"
+                    aria-labelledby="v-tabs-profile-tab"
+                  >
+                    Profile content
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="v-tabs-messages"
+                    role="tabpanel"
+                    aria-labelledby="v-tabs-messages-tab"
+                  >
+                    Messages content
+                  </div>
+                </div>
+                <!-- Tab content -->
+              </div>
+            </div>
+        </div>
+    </div>
+</div>

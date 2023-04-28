@@ -5,10 +5,10 @@
 {% block body %}
 <main id="app">
     {% if app.request.get('_route') != 'app_login' %}
-    <header>
+    <header class="sticky-top">
         <nav class="navbar navbar-expand-lg mask-custom">
           <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
@@ -44,45 +44,12 @@
         </nav>
     </header>
     {% endif %}
-    <router-view></router-view>
+    {% verbatim %}
+    <router-view v-slot="{ Component }">
+        <Transition mode="out-in">
+            <component :is="Component"/>
+        </Transition>
+    </router-view>
+    {% endverbatim %}
 </main>
-{% endblock %}
-
-{% block javascript %}
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="https://unpkg.com/vue-router@4"></script>
-    <script type="text/x-template" id="dashboard">
-      {{ source('pages/dashboard.html.twig') }}
-    </script>
-    <script type="text/x-template" id="beasts">
-      {{ source('pages/beasts.html.twig') }}
-    </script>
-    <script>
-        const { createApp } = Vue;
-        let Dashboard = ({
-            delimiters: ['${', '}'],
-            data() {
-                return {
-                    tasks: [
-                        {title: 'Task 1', completed: false},
-                        {title: 'Task 2', completed: false},
-                        {title: 'Task 3', completed: false},
-                        {title: 'Task 4', completed: false},
-                    ],
-                }
-            },
-            template: '#dashboard',
-        });
-
-        let Beasts = ({
-            delimiters: ['${', '}'],
-            data() {
-                return {
-                    message: 'Hello Beasts!'
-                }
-            },
-            template: '#beasts'
-        });
-    </script>
-    <script src="/js/router.js"></script>
 {% endblock %}

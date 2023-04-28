@@ -1,6 +1,8 @@
+/*
 const routes = [
   { path: '/', component: Dashboard },
   { path: '/beasts', component: Beasts },
+  { path: '/beasts/:id', component: Beast },
 ]
 
 const router = VueRouter.createRouter({
@@ -10,4 +12,4 @@ const router = VueRouter.createRouter({
 
 const app = Vue.createApp({})
 app.use(router)
-app.mount('#app')
+app.mount('#app')*/

@@ -1,0 +1,38 @@
+<template>
+  <div class="container-fluid mt-3" id="dashboard">
+    <div class="row">
+      <div class="col">
+      </div>
+      <div class="col px-5">
+        Liste de choses à faire
+
+        <ul class="list-group list-group-light list-group-small mt-3">
+          <li v-for="task in tasks" class="list-group-item">
+            <input class="form-check-input me-1 mx-3" v-model="task.completed" type="checkbox" value="" aria-label="..."/>
+            ${ task.title }
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "DashboardScreen",
+  data() {
+    return {
+      tasks: [
+        {title: 'Task 1', completed: false},
+        {title: 'Task 2', completed: false},
+        {title: 'Task 3', completed: false},
+        {title: 'Task 4', completed: false},
+      ],
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
