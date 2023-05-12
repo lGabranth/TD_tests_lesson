@@ -3,10 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\BeastRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BeastRepository::class)]
 class Beast
@@ -14,53 +16,69 @@ class Beast
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['beast'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'beasts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['beast'])]
     private ?Race $race = null;
 
     #[ORM\ManyToOne(inversedBy: 'beasts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['beast_full'])]
     private ?Company $company = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['beast'])]
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?bool $chip = false;
+    #[Groups(['beast'])]
+    private bool $chip = false;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['beast'])]
     private ?string $chipNumber = null;
 
     #[ORM\Column]
-    private ?bool $tattoo = null;
+    #[Groups(['beast'])]
+    private bool $tattoo = false;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $arrivalDate = null;
+    #[Groups(['beast'])]
+    private ?DateTimeInterface $arrivalDate = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['beast'])]
     private ?string $arrivalReason = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $exitDate = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['beast'])]
+    private ?DateTimeInterface $exitDate = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['beast'])]
     private ?string $exitReason = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['beast'])]
     private ?string $identification = null;
 
     #[ORM\OneToMany(mappedBy: 'beast', targetEntity: Pathology::class)]
+    #[Groups(['beast'])]
     private Collection $pathologies;
 
     #[ORM\OneToMany(mappedBy: 'beast', targetEntity: Vaccin::class)]
+    #[Groups(['beast'])]
     private Collection $vaccins;
 
     #[ORM\ManyToMany(targetEntity: HostFamily::class, mappedBy: 'beasts')]
+    #[Groups(['beast'])]
     private Collection $hostFamilies;
 
     #[ORM\OneToMany(mappedBy: 'beast', targetEntity: MedicalAppointment::class)]
+    #[Groups(['beast'])]
     private Collection $medicalAppointments;
 
     public function __construct()
@@ -136,7 +154,7 @@ class Beast
         return $this;
     }
 
-    public function hasTatoo(): bool
+    public function hasTattoo(): bool
     {
         return $this->tattoo;
     }
@@ -148,12 +166,12 @@ class Beast
         return $this;
     }
 
-    public function getArrivalDate(): ?\DateTimeInterface
+    public function getArrivalDate(): ?DateTimeInterface
     {
         return $this->arrivalDate;
     }
 
-    public function setArrivalDate(\DateTimeInterface $arrivalDate): self
+    public function setArrivalDate(DateTimeInterface $arrivalDate): self
     {
         $this->arrivalDate = $arrivalDate;
 
@@ -172,12 +190,12 @@ class Beast
         return $this;
     }
 
-    public function getExitDate(): ?\DateTimeInterface
+    public function getExitDate(): ?DateTimeInterface
     {
         return $this->exitDate;
     }
 
-    public function setExitDate(\DateTimeInterface $exitDate): self
+    public function setExitDate(DateTimeInterface $exitDate): self
     {
         $this->exitDate = $exitDate;
 

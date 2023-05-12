@@ -70,10 +70,14 @@ class HostFamily
 
     #[ORM\Column]
     private ?bool $children = null;
+		
+		#[ORM\ManyToMany(targetEntity: Beast::class, inversedBy: 'hostFamilies')]
+    private Collection $beasts;
 
     public function __construct()
     {
         $this->speciesAccepted = new ArrayCollection();
+        $this->beasts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -305,6 +309,27 @@ class HostFamily
     public function setHasChildren(bool $children): self
     {
         $this->children = $children;
+
+        return $this;
+    }
+		
+		public function getBeasts(): Collection
+    {
+        return $this->beasts;
+    }
+
+    public function addBeast(Beast $beast): self
+    {
+        if (!$this->beasts->contains($beast)) {
+            $this->beasts->add($beast);
+        }
+
+        return $this;
+    }
+
+    public function removeBeast(Beast $beast): self
+    {
+        $this->beasts->removeElement($beast);
 
         return $this;
     }

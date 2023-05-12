@@ -28,25 +28,31 @@
               >
                 <i class="fas fa-clipboard"></i> Home
               </button>
-              <a
+              <button
                   class="nav-link text-white-50"
                   id="v-tabs-profile-tab"
                   data-mdb-toggle="tab"
-                  href="#v-tabs-profile"
+                  data-mdb-target="#v-tabs-profile"
+                  type="button"
                   role="tab"
                   aria-controls="v-tabs-profile"
                   aria-selected="false"
-              >Profile</a
-              > <a
+              >
+                <i class="fas fa-file-medical"></i> Santé
+              </button>
+              <button
                 class="nav-link text-white-50"
                 id="v-tabs-messages-tab"
                 data-mdb-toggle="tab"
-                href="#v-tabs-messages"
+                data-mdb-target="#v-tabs-messages"
                 role="tab"
+                type="button"
                 aria-controls="v-tabs-messages"
                 aria-selected="false"
-            >Messages</a
+                disabled
             >
+              <i class="fas fa-history"></i> Historique
+            </button>
             </div>
             <!-- Tab navs -->
           </div>
@@ -69,7 +75,7 @@
                   <hr class="mt-1">
                   <div class="row my-4">
                     <div class="col">
-                      <MDBInput white label="Nom" v-model="message"/>
+                      <MDBInput white label="Nom" v-model="beast.name"/>
                     </div>
                     <div class="col">
                       <MDBInput label="Race" disabled />
@@ -86,32 +92,32 @@
                     <div class="col">
                       <div class="input-group">
                         <div class="input-group-text">
-                          <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Checkbox for following text input"/>
+                          <input class="form-check-input mt-0" v-model="beast.chip" type="checkbox" value="" aria-label="Checkbox for following text input"/>
                         </div>
-                        <MDBInput white label="Numéro puce" size="sm" />
+                        <MDBInput white label="Numéro puce" size="sm" v-model="beast.chipNumber" />
                       </div>
                     </div>
                   </div>
                   <div class="row mb-4">
                     <div class="col">
                       <div class="input-group">
-                        <MDBInput white label="Date d'arrivée" type="date" v-model="test"/>
-                        <MDBInput white label="Raison d'arrivée" />
+                        <MDBInput white label="Date d'arrivée" type="date" v-model="beast.arrivalDate"/>
+                        <MDBInput white label="Raison d'arrivée" v-model="beast.arrivalReason" />
                       </div>
                     </div>
                     <div class="col">
                       <div class="input-group">
-                        <MDBInput white label="Date de départ" type="date"/>
-                        <MDBInput white label="Raison du départ"/>
+                        <MDBInput white label="Date de départ" type="date" v-model="beast.exitDate"/>
+                        <MDBInput white label="Raison du départ" v-model="beast.exitReason"/>
                       </div>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <div class="col-4">
-                      <MDBCheckbox label="Tatoué" />
+                      <MDBCheckbox label="Tatoué" v-model="beast.tattoo" />
                     </div>
                     <div class="col-8">
-                      <MDBTextarea white label="Commentaire" rows="3" />
+                      <MDBTextarea white label="Commentaire" rows="3" v-model="beast.identification" />
                     </div>
                   </div>
                 </div>
@@ -126,12 +132,98 @@
                 </div>
               </div>
               <div
-                  class="tab-pane fade"
+                  class="tab-pane fade mb-3"
                   id="v-tabs-profile"
                   role="tabpanel"
                   aria-labelledby="v-tabs-profile-tab"
               >
-                Profile content
+                <MDBTabs v-model="activeTabId2">
+                  <!-- Tabs navs -->
+                  <MDBTabNav fill tabsClasses="mb-3">
+                    <MDBTabItem tabId="ex2-1" href="ex2-1">Aperçu</MDBTabItem>
+                    <MDBTabItem tabId="ex2-2" href="ex2-2">Rendez-vous</MDBTabItem>
+                  </MDBTabNav>
+                  <!-- Tabs navs -->
+                  <!-- Tabs content -->
+                  <MDBTabContent>
+                    <MDBTabPane tabId="ex2-1">
+                      <div>
+                        Pathologies :
+                        <MDBBadge v-for="i in [1, 2, 3]" pill color="danger" class="mx-2"><i class="fas fa-times"></i> Lèpre</MDBBadge>
+                        <MDBBadge pill color="light" class="mx-2"><i class="fas fa-add"></i> Ajouter</MDBBadge>
+                      </div>
+                      <hr>
+                      <div class="d-flex">
+                        Vaccins :
+                        <MDBBadge pill color="success" class="mx-2"><i class="fas fa-times text-danger"></i> Rage</MDBBadge>
+                        <MDBBadge pill color="warning" class="mx-2"><i class="fas fa-times text-danger"></i> Leuco <i class="fas fa-clock text-warning"></i></MDBBadge>
+                        <MDBBadge pill color="light" class="mx-2"><i class="fas fa-add"></i> Ajouter</MDBBadge>
+                      </div>
+                      <hr>
+                      <p>
+                        Dernier rendez-vous médical le : <strong>02/05/2023</strong>
+                      </p>
+                    </MDBTabPane>
+                    <MDBTabPane tabId="ex2-2">
+                      <h3>Historique des rendez-vous médicaux</h3>
+                      <div class="table-responsive">
+                        <MDBTable class="align-middle mb-0 bg-transparent table-hover table-sm">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Doctor</th>
+                              <th>Compte rendu</th>
+                              <th>Vaccins</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>
+                                02/05/2023
+                              </td>
+                              <td>
+                                <div class="d-flex align-items-center">
+                                  <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt="" style="width: 45px; height: 45px"
+                                    class="rounded-circle" />
+                                  <div class="ms-3">
+                                    <p class="fw-bold mb-1">Dr. Chen</p>
+                                    <a href="tel:0673057880" class="text-muted mb-0">06.73.05.78.80</a>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>En fait il avait juste un truc coincé...</td>
+                              <td>
+                                <MDBBadge badge="success" pill class="d-inline">Rage</MDBBadge>
+                              </td>
+                              <td>
+                                <MDBBtn color="link" size="sm" rounded>
+                                  <i class="fas fa-edit text-warning"></i>
+                                </MDBBtn>
+                              </td>
+                            </tr>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="6" class="text-center">
+                                <div class="input-group-sm">
+                                  <button disabled type="button" class="btn btn-link btn-sm btn-rounded">
+                                    <i class="fas fa-arrow-circle-left"></i>
+                                  </button>
+                                  <span class="mx-2">1</span>
+                                  <button disabled type="button" class="btn btn-link btn-sm btn-rounded">
+                                    <i class="fas fa-arrow-circle-right"></i>
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          </tfoot>
+                        </MDBTable>
+                      </div>
+                    </MDBTabPane>
+                  </MDBTabContent>
+                  <!-- Tabs content -->
+                </MDBTabs>
               </div>
               <div
                   class="tab-pane fade"
@@ -139,7 +231,8 @@
                   role="tabpanel"
                   aria-labelledby="v-tabs-messages-tab"
               >
-                Messages content
+                <h3>Historique de Gnocchi</h3>
+
               </div>
             </div>
             <!-- Tab content -->
@@ -151,7 +244,8 @@
 </template>
 
 <script>
-import { MDBInput, MDBBtn, MDBCheckbox, MDBTextarea } from "mdb-vue-ui-kit";
+import { MDBInput, MDBBtn, MDBCheckbox, MDBTextarea, MDBTabs, MDBTabNav, MDBTabItem, MDBTabContent, MDBTabPane, MDBBadge, MDBTable } from "mdb-vue-ui-kit";
+const axios = require("axios");
 export default {
   name: "BeastScreen",
   components: {
@@ -159,13 +253,36 @@ export default {
     MDBBtn,
     MDBCheckbox,
     MDBTextarea,
+    MDBTabs,
+    MDBTabNav,
+    MDBTabItem,
+    MDBTabContent,
+    MDBTabPane,
+    MDBBadge,
+    MDBTable,
   },
   data() {
     return {
-      message: "Hello Vue!",
+      beast: {},
       test: null,
+      activeTabId2: "ex2-1",
     };
   },
+  mounted() {
+    this.getBeast(this.$route.params.id);
+  },
+  methods: {
+    getBeast() {
+      axios
+        .get(`/beasts/${this.$route.params.id}`)
+        .then((response) => {
+          this.beast = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  }
 }
 </script>
 

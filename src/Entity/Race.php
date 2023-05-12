@@ -6,6 +6,7 @@ use App\Repository\RaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RaceRepository::class)]
 class Race
@@ -13,9 +14,11 @@ class Race
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['beast'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['beast'])]
     private ?string $name = null;
 
     #[ORM\ManyToOne(inversedBy: 'races')]
