@@ -17,11 +17,13 @@ import * as VueRouter from 'vue-router';
 import DashboardScreen from "../templates/pages/DashboardScreen.vue";
 import BeastsScreen from "../templates/pages/BeastsScreen.vue";
 import BeastScreen from "../templates/pages/BeastScreen.vue";
+import RacesScreen from "../templates/pages/RacesScreen.vue";
 
 const routes = [
-  { path: '/', component: DashboardScreen },
-  { path: '/beasts', component: BeastsScreen },
-  { path: '/beasts/:id', component: BeastScreen },
+  { path: '/', component: DashboardScreen, name: 'dashboard' },
+  { path: '/beasts', component: BeastsScreen, name: 'beasts' },
+  { path: '/beasts/:id', component: BeastScreen, name: 'beast' },
+  { path: '/races', component: RacesScreen, name: 'races' },
 ]
 
 const router = VueRouter.createRouter({

@@ -1,5 +1,64 @@
 <template>
   <div class="container h-100 rounded-3 mt-4 p-3" id="dashboard">
+    <MDBModal
+      id="exampleModal"
+      tabindex="-1"
+      labelledby="exampleModalLabel"
+      v-model="displayAddPathologyModal"
+      centered
+    >
+      <MDBModalHeader>
+        <MDBModalTitle id="exampleModalLabel"> Ajouter une pathologie à <span class="text-primary">{{ beast.name }}</span> </MDBModalTitle>
+      </MDBModalHeader>
+      <MDBModalBody>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              <MDBInput
+                v-model="searchPathology"
+                inputGroup
+                :formOutline="false"
+                wrapperClass="mb-3"
+                placeholder="Search"
+                aria-label="Search"
+                aria-describedby="button-addon2"
+              >
+                <MDBBtn color="primary">
+                  <MDBIcon icon="search" />
+                </MDBBtn>
+              </MDBInput>
+
+              <div class="row">
+                <div class="col">
+                  <div class="d-flex justify-content-between align-items-center">
+                    Lèpre
+                    <button class="btn btn-rounded btn-sm btn-link ripple-surface-success">
+                      <i class="fas fa-add text-success"></i>
+                    </button>
+                  </div>
+                  <hr class="my-2">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <div class="d-flex justify-content-between align-items-center">
+                    Leuco
+                    <button class="btn btn-rounded btn-sm btn-link ripple-surface-danger">
+                      <i class="fas fa-times text-danger"></i>
+                    </button>
+                  </div>
+                  <hr class="my-2">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </MDBModalBody>
+      <MDBModalFooter>
+        <MDBBtn color="danger" @click="displayAddPathologyModal = false">Annuler</MDBBtn>
+        <MDBBtn color="success">Ajouter</MDBBtn>
+      </MDBModalFooter>
+    </MDBModal>
     <div class="row h-100">
       <div class="col h-100">
         <div class="d-flex align-middle">
@@ -149,8 +208,8 @@
                     <MDBTabPane tabId="ex2-1">
                       <div>
                         Pathologies :
-                        <MDBBadge v-for="i in [1, 2, 3]" pill color="danger" class="mx-2"><i class="fas fa-times"></i> Lèpre</MDBBadge>
-                        <MDBBadge pill color="light" class="mx-2"><i class="fas fa-add"></i> Ajouter</MDBBadge>
+                        <MDBBadge v-for="p in beast.pathologies" pill color="danger" class="mx-2"><i class="fas fa-times"></i>{{ p.pathology.name }}</MDBBadge>
+                        <MDBBadge pill color="light" class="mx-2" @click="displayAddPathologyModal = true" style="cursor: pointer;"><i class="fas fa-add"></i> Ajouter</MDBBadge>
                       </div>
                       <hr>
                       <div class="d-flex">
@@ -244,7 +303,7 @@
 </template>
 
 <script>
-import { MDBInput, MDBBtn, MDBCheckbox, MDBTextarea, MDBTabs, MDBTabNav, MDBTabItem, MDBTabContent, MDBTabPane, MDBBadge, MDBTable } from "mdb-vue-ui-kit";
+import { MDBInput, MDBBtn, MDBCheckbox, MDBTextarea, MDBTabs, MDBTabNav, MDBTabItem, MDBTabContent, MDBTabPane, MDBBadge, MDBTable, MDBModal, MDBModalHeader, MDBModalBody, MDBModalFooter, MDBModalTitle, MDBIcon } from "mdb-vue-ui-kit";
 const axios = require("axios");
 export default {
   name: "BeastScreen",
@@ -260,10 +319,18 @@ export default {
     MDBTabPane,
     MDBBadge,
     MDBTable,
+    MDBModal,
+    MDBModalHeader,
+    MDBModalBody,
+    MDBModalFooter,
+    MDBModalTitle,
+    MDBIcon,
   },
   data() {
     return {
       beast: {},
+      displayAddPathologyModal: false,
+      searchPathology: "",
       test: null,
       activeTabId2: "ex2-1",
     };
@@ -282,6 +349,9 @@ export default {
           console.log(error);
         });
     },
+    openModalAddPathology() {
+      console.log('add')
+    }
   }
 }
 </script>
