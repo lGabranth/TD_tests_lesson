@@ -3,6 +3,7 @@
 ## Prérequis
 * Remplir le .env avec les informations de connexion à la base de données
 * Avoir composer installé sur la machine
+* Avoir php installé sur la machine
 * Avoir npm installé sur la machine
 * Avoir symfony installé sur la machine
 * Avoir un serveur de base de données (MySQL, MariaDB, PostgreSQL, etc.)
