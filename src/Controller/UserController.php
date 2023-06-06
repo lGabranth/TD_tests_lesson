@@ -46,7 +46,7 @@ class UserController extends AbstractController
 	)
 	{
 			if (empty($_POST)) {
-				return new JsonResponse(['error' => 'No data'], 400);
+				return $this->json(['error' => 'No data'], 400);
 			}
 			$_POST = json_decode(array_keys($_POST)[0], true);
       $user = new User();
@@ -60,6 +60,6 @@ class UserController extends AbstractController
       $manager->flush();
 			
       $security->login($user);
-			return true;
+			return $this->json(['success' => true]);
   }
 }

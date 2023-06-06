@@ -46,7 +46,11 @@ Le taux d'erreur n'a pas augmenté, ce qui signifie que les serveurs de l'API qu
 * 2.register.cy.js : Test la création de compte + le fait que l'on voit les utilisateurs + déconnexion et le fait qu'on ne puisse pas retourner sur le dashboard
 * 3.connection.cy.js : Test la connexion + le fait que l'on voit les utilisateurs + l'accès aux détails d'un utilisateur
 
-Tous les tests passent en utilisant la UI de Cypress, mais il arrivent qu'ils plantent avec la commande run. Principalement register. Je pense que c'est à cause de la lenteur du build de dev de Symfony  
+Tous les tests passent en utilisant la UI de Cypress, mais il arrive qu'ils plantent avec la commande run. Principalement register. Je pense que c'est à cause de la lenteur du build de dev de Symfony.  
+
+![](docs/tests_results.png)
+La vidéo se trouve dans ./docs/TD_proof.mp4
+
 Pour lancer les tests :
 ```bash
 npx cypress run

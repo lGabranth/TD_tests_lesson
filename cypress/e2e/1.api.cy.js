@@ -1,3 +1,5 @@
+const mockData = { id: 1, email: 'test@gmail.com', login: 'test@gmail.com' }
+
 describe('API Testing', () => {
   context('Try to get users', () => {
     it('should not have data because we are not connected', () => {
@@ -17,6 +19,9 @@ describe('API Testing', () => {
       cy.request('GET', 'https://127.0.0.1:8000/users')
         .then((response) => {
           expect(response.status).to.be.eq(200)
+          const res = response.body[0];
+          expect(res.id).to.be.eq(mockData.id)
+          expect(res.login).to.be.eq(mockData.login)
         })
     })
   })
