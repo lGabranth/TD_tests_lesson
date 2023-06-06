@@ -29,17 +29,31 @@ symfony server:ca:install
 symfony server:start -d
 ```
 
-Le site web est alors accessible à l'adresse https://127.0.0.1:8000
+Le site web est alors accessible à l'adresse https://127.0.0.1:8000, allez à cette adresse afin de vous assurer que cela a fonctionné
 
 ## Réponses aux questions
 
-1. Explication du test de charge
+1. Explication du test de charge  
+J'ai augmenté petit à petit le nombre d'utilisateurs impactant l'API `https://reqres.in/api/users`  
+J'ai eu le temps de monter jusqu'à 6000 utilisateurs en simultanée ce qui n'a pas généré d'erreur sur l'API  
+Le fichier contenant mon test est `./Exo1.jmx` 
 2. Explication choix technologique  
-J'ai fais le choix d'utiliser Symfony pour ce projet car c'est un framework auquel je suis habitué et qui me permet de sortir rapidement une interface sécurisée. De part la contrainte de temps et le fait que je sois seul sur l'exercice, j'ai préféré partir sur une technologie me permettant de coder les bases du projet en un rien de temps.
-3. Explication résultats
+J'ai choisi d'utiliser jMeter car nous avions déjà mis en place une configuration ce qui m'a permi de gagner le temps que j'ai perdu à combattre les lenteurs de mon PC
+3. Explication résultats  
+Le taux d'erreur n'a pas augmenté, ce qui signifie que les serveurs de l'API que j'ai testé supporte la connexion de plus de 6000 utilisateurs simultanément
 
-* register.cy.js : Test la création de compte + déconnexion et le fait qu'on ne puisse pas retourner sur le dashboard
-* 
+* 1.api.cy.js : Test l'accès à une route de l'API en fonction de si l'on est connecté ou non
+* 2.register.cy.js : Test la création de compte + le fait que l'on voit les utilisateurs + déconnexion et le fait qu'on ne puisse pas retourner sur le dashboard
+* 3.connection.cy.js : Test la connexion + le fait que l'on voit les utilisateurs + l'accès aux détails d'un utilisateur
+
+Tous les tests passent en utilisant la UI de Cypress, mais il arrivent qu'ils plantent avec la commande run. Principalement register. Je pense que c'est à cause de la lenteur du build de dev de Symfony  
+Pour lancer les tests :
+```bash
+npx cypress run
+# ou
+npx cypress open
+```
+Pour éteindre le serveur PhP :
 
 ```bash
 symfony server:stop
