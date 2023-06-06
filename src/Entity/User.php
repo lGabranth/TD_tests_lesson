@@ -37,14 +37,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $img = null;
-
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Company $company = null;
+    private ?string $img = 'https://jardinage.lemonde.fr/images/dossiers/2017-08/chaton-161238.jpg';
 
     #[ORM\Column]
-    private ?bool $active = null;
+    private ?bool $active = true;
 
     public function getId(): ?int
     {
@@ -160,18 +156,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setImg(string $img): self
     {
         $this->img = $img;
-
-        return $this;
-    }
-
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): self
-    {
-        $this->company = $company;
 
         return $this;
     }

@@ -15,15 +15,11 @@ import 'mdb-vue-ui-kit/css/mdb.dark.min.css';
 import {createApp} from 'vue';
 import * as VueRouter from 'vue-router';
 import DashboardScreen from "../templates/pages/DashboardScreen.vue";
-import BeastsScreen from "../templates/pages/BeastsScreen.vue";
-import BeastScreen from "../templates/pages/BeastScreen.vue";
-import RacesScreen from "../templates/pages/RacesScreen.vue";
+import UserScreen from "../templates/pages/UserScreen.vue";
 
 const routes = [
   { path: '/', component: DashboardScreen, name: 'dashboard' },
-  { path: '/beasts', component: BeastsScreen, name: 'beasts' },
-  { path: '/beasts/:id', component: BeastScreen, name: 'beast' },
-  { path: '/races', component: RacesScreen, name: 'races' },
+  { path: '/user/:id', component: UserScreen, name: 'user' },
 ]
 
 const router = VueRouter.createRouter({

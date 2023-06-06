@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Login | Shelper.{% endblock %}
+{% block title %}Login | TDD.{% endblock %}
 {% block stylesheets %}
     <style>
         body {
@@ -12,6 +12,62 @@
 {% block body %}
 
 <div class="container-fluid h-100">
+    <div class="modal fade" id="modalRegister" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Créer un compte</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <div class="container-fluid">
+                  <div class="row">
+                      <div class="col">
+                          <div class="form-outline form-white">
+                            <i class="fas fa-at trailing"></i>
+                            <input required type="text" id="usernameRegister" class="form-control" placeholder="Toto" aria-describedby="username">
+                            <label for="usernameRegister" class="form-label">Username</label>
+                        </div>
+                      </div>
+                      <div class="col">
+                          <div class="form-outline form-white">
+                            <i class="fas fa-at trailing"></i>
+                            <input required type="email" id="emailRegister" class="form-control" placeholder="john.doe@gmail.com" aria-describedby="email">
+                            <label for="emailRegister" class="form-label">Adresse email</label>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row mt-4">
+                      <div class="col">
+                          <div class="form-outline form-white">
+                            <input required type="text" id="firstnameRegister" class="form-control" placeholder="John" aria-describedby="firstname">
+                            <label for="firstnameRegister" class="form-label">Prénom</label>
+                        </div>
+                      </div>
+                      <div class="col">
+                          <div class="form-outline form-white">
+                            <input required type="text" id="lastnameRegister" class="form-control" placeholder="Doe" aria-describedby="lastname">
+                            <label for="lastnameRegister" class="form-label">Nom</label>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="row mt-4">
+                      <div class="col">
+                          <div class="form-outline form-white">
+                            <input required type="password" id="passwordRegister" class="form-control" placeholder="John" aria-describedby="password">
+                            <label for="passwordRegister" class="form-label">Mot de passe</label>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="btnRegister">S'enregistrer</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="row h-100">
         <div class="col-12 h-100">
             <div class="row h-100 d-flex align-items-center">
@@ -34,6 +90,7 @@
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
+                        <button type="button" data-mdb-toggle="modal" data-mdb-target="#modalRegister" class="btn btn-sm btn-outline-warning float-start mt-4" data-mdb-ripple-color="warning">Je n'ai pas de compte</button>
                         <button type="submit" class="btn btn-sm btn-outline-info float-end mt-4" data-mdb-ripple-color="light">Connexion</button>
                     </form>
                 </div>
@@ -41,4 +98,30 @@
         </div>
     </div>
 </div>
+<script>
+    const btnRegister = document.getElementById('btnRegister');
+    btnRegister.addEventListener('click', () => {
+      const usernameRegister = document.getElementById('usernameRegister');
+      const emailRegister = document.getElementById('emailRegister');
+      const firstnameRegister = document.getElementById('firstnameRegister');
+      const lastnameRegister = document.getElementById('lastnameRegister');
+      const passwordRegister = document.getElementById('passwordRegister');
+
+      fetch('https://127.0.0.1:8000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Access-Control-Allow-Origin': '*'
+        },
+        mode: "cors",
+        body: JSON.stringify({
+          username: usernameRegister.value,
+          email: emailRegister.value,
+          firstname: firstnameRegister.value,
+          lastname: lastnameRegister.value,
+          password: passwordRegister.value
+        })
+      }).then(() => window.location.reload())
+    })
+</script>
 {% endblock %}

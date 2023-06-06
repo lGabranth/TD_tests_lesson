@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard | Shelper.{% endblock %}
+{% block title %}Dashboard | TD.{% endblock %}
 
 {% block body %}
 <main id="app">
@@ -16,27 +16,8 @@
                 <li class="nav-item">
                     <router-link class="nav-link" to="/"><i class="fas fa-house menu-img" :class="[$route?.name === 'dashboard' ? 'text-white' : 'text-white-50']"></i></router-link>
                 </li>
-                <li class="nav-item" title="Les animaux">
-                    <router-link class="nav-link" to="/beasts"><i class="fas fa-paw menu-img" :class="[$route?.name?.includes('beast') ? 'text-white' : 'text-white-50']"></i></router-link>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#"><i class="fas fa-person-shelter menu-img" :class="[$route.name === 'families' ? 'text-white' : 'text-white-50']"></i></a>
-                </li>
               </ul>
               <div class="navbar-text d-flex">
-                {% if is_granted('ROLE_ADMIN') %}
-                  <div class="collapse" id="collapseMenu">
-                      <div class="d-flex">
-                          <router-link class="nav-link" to="/company" title="Association"><i class="fas fa-building mx-1 menu-img" :class="[$route.name === 'beasts' ? 'text-white' : 'text-white-50']"></i></router-link>
-                          <router-link class="nav-link" to="/pathologies" title="Pathologies"><i class="fas fa-viruses text-white-50 mx-1 menu-img"></i></router-link>
-                          <router-link class="nav-link" to="/vaccines" title="Vaccins"><i class="fas fa-shield-virus text-white-50 mx-1 menu-img"></i></router-link>
-                          <router-link class="nav-link" to="/races" title="Races"><i class="fas fa-paw mx-1 menu-img" :class="[$route.name === 'races' ? 'text-white' : 'text-white-50']"></i></router-link>
-                      </div>
-                  </div>
-                  <a class="text-white mx-3" role="button" data-mdb-toggle="collapse" href="#collapseMenu" aria-expanded="false" aria-controls="collapseMenu">
-                      <i class="fas fa-cogs menu-img"></i>
-                  </a>
-                {% endif %}
                 <a class="link-danger" href="{{ path('app_logout') }}"><i class="fas fa-sign-out text-danger menu-img"></i></a>
               </div>
             </div>
