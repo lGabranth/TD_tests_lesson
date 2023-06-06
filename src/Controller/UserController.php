@@ -49,7 +49,6 @@ class UserController extends AbstractController
 				return new JsonResponse(['error' => 'No data'], 400);
 			}
 			$_POST = json_decode(array_keys($_POST)[0], true);
-			dd($_POST);
       $user = new User();
 			$user->setLogin($_POST['username']);
 			$user->setFirstName($_POST['firstname']);

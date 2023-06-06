@@ -20,6 +20,7 @@ Créer la structure de la base de données
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
+yarn encore production
 ```
 
 Lancer le serveur
