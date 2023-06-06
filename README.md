@@ -26,3 +26,5 @@ Lancer le serveur
 symfony server:ca:install
 symfony server:start
 ```
+
+Le site web est alors accessible à l'adresse https://127.0.0.1:8000
